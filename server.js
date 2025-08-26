@@ -4,9 +4,6 @@ const path = require("path");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Servidor corriendo en puerto ${PORT}`);
-});
 
 app.use(cors());
 app.use(express.json());
@@ -27,4 +24,8 @@ app.get("/galeria", (req, res) => {
 
 app.get("/precios", (req, res) => {
   res.sendFile(path.join(__dirname, "precios.html"));
+});
+
+app.listen(PORT, () => {
+  console.log(`Servidor corriendo en puerto ${PORT}`);
 });

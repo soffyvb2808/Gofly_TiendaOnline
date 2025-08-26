@@ -26,6 +26,17 @@ app.get("/precios", (req, res) => {
   res.sendFile(path.join(__dirname, "precios.html"));
 });
 
+
+app.post("/login", (req, res) => {
+  const { correo, contraseña } = req.body;
+
+  if (correo === "usuario@gmail.com" && contraseña === "123456") {
+    res.json({ success: true, message: "Inicio de sesión exitoso" });
+  } else {
+    res.status(401).json({ success: false, message: "Información incorrecta" });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en puerto ${PORT}`);
 });

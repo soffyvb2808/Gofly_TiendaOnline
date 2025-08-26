@@ -46,18 +46,22 @@
       }
   
       try {
-        const respuesta = await fetch("http://localhost:3000/api/usuarios", {
+        const respuesta = await fetch("/login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ nombre, correo, contraseña })
         });
   
         const data = await respuesta.json();
-  
-        resultado.style.color = "green";
-        resultado.innerText = "✔" + data.mensaje;
-  
-        formulario.reset();
+
+   if (data.success) {
+          resultado.style.color = "green";
+          resultado.innerText = data.message;
+          formulario.reset();
+        } else {
+          resultado.style.color = "red";
+          resultado.innerText = data.message;
+        }
       } catch (error) {
         resultado.style.color = "red";
         resultado.innerText = "Error al conectar con el servidor";

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Log in</title>
+  <link rel="stylesheet" href="css/estilo.css">
+  <script src="assets/cliente.js" defer></script>
+</head>
+<body>
+  <header>
+    <h1>GOFLY</h1>
+    <nav>
+        <a href="index.html">Inicio</a>
+        <a href="formulario.html">Iniciar Sesión</a>
+        <a href="galeria.html">Lugares</a>
+        <a href="precios.html">Precios</a>
+      </nav>
+  </header>
+
+  <div class="formulario">
+    <h2>Iniciar Sesión</h2>
+    <form id="miFormulario">
+      <input type="text" id="nombre" placeholder="Nombre completo">
+      <input type="email" id="correo" placeholder="Correo electrónico">
+      <input type="password" id="contraseña" placeholder="Contraseña">
+      <button type="submit">Enviar</button>
+    </form>
+    <p id="resultado"></p>
+  </div>
+  
+  <script>
+    const formulario = document.getElementById("miFormulario");
+    const resultado = document.getElementById("resultado");
+  
+    formulario.addEventListener("submit", async (e) => {
+      e.preventDefault();
+  
+      const nombre = document.getElementById("nombre").value.trim();
+      const correo = document.getElementById("correo").value.trim();
+      const contraseña = document.getElementById("contraseña").value.trim();
+  
+      if (!nombre || !correo || !contraseña) {
+        resultado.style.color = "red";
+        resultado.innerText = "Todos los campos son obligatorios";
+        return;
+      }
+  
+      try {
+        const respuesta = await fetch("http://localhost:3000/api/usuarios", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ nombre, correo, contraseña })
+        });
+  
+        const data = await respuesta.json();
+  
+        resultado.style.color = "green";
+        resultado.innerText = "✔" + data.mensaje;
+  
+        formulario.reset();
+      } catch (error) {
+        resultado.style.color = "red";
+        resultado.innerText = "Error al conectar con el servidor";
+      }
+    });
+  </script>
+</body>
+</html>
